@@ -1,5 +1,7 @@
 package scheduler;
 
+import java.util.Scanner;
+
 /*
  * Objective: Create a weekly scheduling application.
  * 
@@ -24,8 +26,87 @@ package scheduler;
  *   variables.
  */
 public class Scheduler {
+	public static void main(String[] args) {
+		Schedule runrun = new Schedule();
+		runrun.schedule();
+	}
+}
 
-    public static void main(String[] args) {
+class Schedule {
+	Scanner scan = new Scanner(System.in);
 
-    }
+	void schedule() {
+		System.out.println("Welcome the the scheduler");
+		System.out.println("Enter a day(Mon, Tue, Wed, Thu, Fri, Sat, Sun)");
+		String chosenDay = scan.next();
+		switch (chosenDay) {
+		case "Mon":
+			editDay("Monday");
+			break;
+		case "Tue":
+			editDay("Tuesday");
+			break;
+		case "Wed":
+			editDay("Wednesday");
+			break;
+		case "Thu":
+			editDay("Thursday");
+			break;
+		case "Fri":
+			editDay("Friday");
+			break;
+		case "Sat":
+			editDay("Saturday");
+			break;
+		case "Sun":
+			editDay("Sunday");
+			break;
+		}
+	}
+
+	void editDay(String day) {
+		System.out.println("Day: " + day + "\n Add: 1 \n Remove: 2 \n View: 3");
+		int choice = scan.nextInt();
+		switch (choice) {
+		case 1:
+			System.out.println("Enter the event you want to add and the time of the event(ex. Dinner,10:00am)");
+			String event = scan.next();
+			System.out.println(convertEvent(event)[0] + " " + convertEvent(event)[1]);
+		}
+	}
+	//test if works
+	String[] convertEvent(String eventStr) {
+		System.out.println(eventStr);
+		String[] event = eventStr.split(",");
+		int timeHour = 0;
+		String timeMin = "";
+		event[0] = event[0].trim().toLowerCase();
+		event[1] = event[1].trim();
+		if (event[1].contains("am")) {
+			event[1] = event[1].replaceAll("am", "");
+			timeHour = Integer.parseInt(event[1].split(":")[0]);
+			timeMin = event[1].split(":")[1];
+			if (timeHour == 12) {
+				timeHour = 0;
+			}
+		} else if (event[1].contains("pm")) {
+			event[1] = event[1].replaceAll("pm", "");
+			timeHour = Integer.parseInt(event[1].split(":")[0]);
+			timeMin = event[1].split(":")[1];
+			if (timeHour == 12) {
+				
+			}
+			else {
+			timeHour += 12;
+			}
+		}
+		if (timeHour > 24 || timeHour < 0 || Integer.parseInt(timeMin) > 60 || Integer.parseInt(timeMin) < 0) {
+			System.out.println("Invalid Time");
+		} else {
+			event[1] = timeHour + "";
+			event[1] += timeMin + "";
+		}
+		return event;
+	}
+
 }
