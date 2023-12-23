@@ -68,6 +68,7 @@ public class LinkedList<T> {
     }
 
     public void print() {
+    	int count = 0;
         if (head == null) {
             System.out.println("No items in list!");
         } else {
@@ -76,9 +77,9 @@ public class LinkedList<T> {
 
             while (next != null) {
 
-                System.out.print(next.getValue().toString() + " <-> ");
+                System.out.print(count + ": " + next.getValue().toString() + "\n");
                 next = next.getNext();
-
+                count++;
             }
 
             System.out.println();
