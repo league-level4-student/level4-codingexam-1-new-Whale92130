@@ -34,16 +34,20 @@ public class Scheduler {
 
 class Schedule {
 	Scanner scan = new Scanner(System.in);
+	DaysOfTheWeek monday = DaysOfTheWeek.values()[0];
+	DaysOfTheWeek tuesday = DaysOfTheWeek.values()[1];
+	DaysOfTheWeek wednesday = DaysOfTheWeek.values()[2];
+	DaysOfTheWeek thursday = DaysOfTheWeek.values()[3];
+	DaysOfTheWeek friday = DaysOfTheWeek.values()[4];
+	DaysOfTheWeek saturday = DaysOfTheWeek.values()[5];
+	DaysOfTheWeek sunday = DaysOfTheWeek.values()[6];
 
 	void schedule() {
-		DaysOfTheWeek monday = DaysOfTheWeek.values()[0];
-		DaysOfTheWeek tuesday = DaysOfTheWeek.values()[1];
-		DaysOfTheWeek wednesday = DaysOfTheWeek.values()[2];
-		DaysOfTheWeek thursday = DaysOfTheWeek.values()[3];
-		DaysOfTheWeek friday = DaysOfTheWeek.values()[4];
-		DaysOfTheWeek saturday = DaysOfTheWeek.values()[5];
-		DaysOfTheWeek sunday = DaysOfTheWeek.values()[6];
 		System.out.println("Welcome the the scheduler");
+		choseDay();
+	}
+
+	void choseDay() {
 		System.out.println("Enter a day(Mon, Tue, Wed, Thu, Fri, Sat, Sun)");
 		String chosenDay = scan.next();
 		switch (chosenDay) {
@@ -76,61 +80,84 @@ class Schedule {
 		int choice = scan.nextInt();
 		switch (choice) {
 		case 1:
-			System.out.println("Enter the event you want to add and the time of the event(ex. Dinner_with_Sam,10:30pm)");
+			System.out
+					.println("Enter the event you want to add and the time of the event(ex. Dinner_with_Sam,10:30pm)");
 			String event = scan.next();
 			String[] events = convertEvent(event, day);
-			System.out.println(events[0] + " " + events[1] + " " + events[2]);
 			try {
 				dayList.addEvents(events);
+				System.out.println("Event added!");
+				choseDay();
 			} catch (SchedulingConflictException e) {
-				e.printStackTrace();
 				e.doubleBook();
+				choseDay();
 			}
 			break;
 		case 2:
 			System.out.println();
-			dayList.getEvents().print();
+			System.out.println("Enter the number of the item you wish to remove");
+			printList(dayList);
+			String remove = scan.next();
+			dayList.removeEvent(Integer.parseInt(remove));
+			choseDay();
 			break;
 		case 3:
-
+			System.out.println();
+			printList(dayList);
+			choseDay();
+			break;
 		}
 	}
 
 	// works
 	String[] convertEvent(String eventStr, String day) {
 		System.out.println(eventStr);
-		eventStr += ",day";
+		eventStr += ",day,orgTime";
 		String[] event = eventStr.split(",");
+		event[3] = event[1];
 		int timeHour = 0;
-		String timeMin = "";
+		int timeMin = 0;
 		event[0] = event[0].trim().toLowerCase();
 		event[1] = event[1].trim();
 		if (event[1].contains("am")) {
 			event[1] = event[1].replaceAll("am", "");
 			timeHour = Integer.parseInt(event[1].split(":")[0]);
-			timeMin = event[1].split(":")[1];
+			timeMin = Integer.parseInt(event[1].split(":")[1]);
 			if (timeHour == 12) {
 				timeHour = 0;
 			}
 		} else if (event[1].contains("pm")) {
 			event[1] = event[1].replaceAll("pm", "");
 			timeHour = Integer.parseInt(event[1].split(":")[0]);
-			timeMin = event[1].split(":")[1];
+			timeMin = Integer.parseInt(event[1].split(":")[1]);
 			if (timeHour == 12) {
 
 			} else {
 				timeHour += 12;
 			}
 		}
-		if (timeHour > 24 || timeHour < 0 || Integer.parseInt(timeMin.trim()) > 60
-				|| Integer.parseInt(timeMin.trim()) < 0) {
+		if (timeHour > 24 || timeHour < 0 || timeMin >= 60 || timeMin < 0) {
 			System.out.println("Invalid Time");
 		} else {
 			event[1] = timeHour + "";
+			if (timeMin <= 9) {
+				event[1] += "0";
+			}
 			event[1] += timeMin + "";
 			event[2] = day;
 		}
 		return event;
+	}
+
+	void printList(DaysOfTheWeek day) {
+		Node<String[]> newNode = day.getEvents().getHead();
+		int count = 0;
+		for (int i = 0; i < day.getEvents().size(); i++) {
+			System.out.println(count + ": " + newNode.getValue()[0] + " " + newNode.getValue()[3] + " "
+					+ newNode.getValue()[2] + " ");
+			newNode = newNode.getNext();
+			count++;
+		}
 	}
 
 }
