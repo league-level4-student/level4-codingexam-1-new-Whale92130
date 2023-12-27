@@ -139,7 +139,11 @@ class Schedule {
 		if (timeHour > 24 || timeHour < 0 || timeMin >= 60 || timeMin < 0) {
 			System.out.println("Invalid Time");
 		} else {
-			event[1] = timeHour + "";
+			if (timeHour < 10) {
+				event[1] = "0" + timeHour + "";
+			} else {
+				event[1] = timeHour + "";
+			}
 			if (timeMin <= 9) {
 				event[1] += "0";
 			}

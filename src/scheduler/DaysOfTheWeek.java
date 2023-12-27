@@ -6,10 +6,12 @@ public enum DaysOfTheWeek {
 	private LinkedList<String[]> events = new LinkedList<String[]>();
 
 	LinkedList<String[]> getEvents() {
+		updateTimes();
 		return events;
 	}
 
 	void addEvents(String[] event) throws SchedulingConflictException {
+
 		if (events.getHead() != null) {
 			Node<String[]> newNode = events.getHead();
 			while (newNode != null) {
@@ -30,19 +32,25 @@ public enum DaysOfTheWeek {
 
 	void updateTimes() {
 		// update the linked list so its in order
-		Node<String[]> newNode = events.getHead();
-		while (newNode != null) {
-			String[] time = newNode.getValue()[1].split("");
-			String minsStr = time[time.length-1]+time[time.length-2];
-			int mins = Integer.parseInt(minsStr);
-			int hour;
-			if (time[1].equals(time[time.length-2])) {
-				hour = Integer.parseInt(time[0]);
+		Node<String[]> node = events.getHead();
+		while (node != null && node.getNext() != null) {
+			System.out.println(getTime(node));
+			System.out.println(getTime(node.getNext()));
+			if (getTime(node) > getTime(node.getNext())) {
+				System.out.println("swap");
+				Node<String[]> temp = node;
+				node = node.getNext();
+				node.setPrev(temp);
+				events.print();
 			}
-			else {
-				hour = Integer.parseInt(time[0]+time[1]);
-			}
-			newNode = newNode.getNext();
+
 		}
+	}
+
+	// works
+	private int getTime(Node<String[]> event) {
+		int time = Integer.parseInt(event.getValue()[1]);
+		// System.out.println("Time: " + time);
+		return time;
 	}
 }
