@@ -27,20 +27,14 @@ import java.util.Scanner;
  */
 public class Scheduler {
 	public static void main(String[] args) {
-		Schedule runrun = new Schedule();
-		runrun.schedule();
+		Schedule runrunrunrunrunrunrunrun = new Schedule();
+		runrunrunrunrunrunrunrun.schedule();
 	}
 }
 
 class Schedule {
 	Scanner scan = new Scanner(System.in);
-	DaysOfTheWeek monday = DaysOfTheWeek.values()[0];
-	DaysOfTheWeek tuesday = DaysOfTheWeek.values()[1];
-	DaysOfTheWeek wednesday = DaysOfTheWeek.values()[2];
-	DaysOfTheWeek thursday = DaysOfTheWeek.values()[3];
-	DaysOfTheWeek friday = DaysOfTheWeek.values()[4];
-	DaysOfTheWeek saturday = DaysOfTheWeek.values()[5];
-	DaysOfTheWeek sunday = DaysOfTheWeek.values()[6];
+	DaysOfTheWeek[] days = DaysOfTheWeek.values();
 
 	void schedule() {
 		System.out.println("Welcome the the scheduler");
@@ -52,25 +46,25 @@ class Schedule {
 		String chosenDay = scan.next();
 		switch (chosenDay) {
 		case "Mon":
-			editDay("Monday", monday);
+			editDay("Monday", days[0]);
 			break;
 		case "Tue":
-			editDay("Tuesday", tuesday);
+			editDay("Tuesday", days[1]);
 			break;
 		case "Wed":
-			editDay("Wednesday", wednesday);
+			editDay("Wednesday", days[2]);
 			break;
 		case "Thu":
-			editDay("Thursday", thursday);
+			editDay("Thursday", days[3]);
 			break;
 		case "Fri":
-			editDay("Friday", friday);
+			editDay("Friday", days[4]);
 			break;
 		case "Sat":
-			editDay("Saturday", saturday);
+			editDay("Saturday", days[5]);
 			break;
 		case "Sun":
-			editDay("Sunday", sunday);
+			editDay("Sunday", days[6]);
 			break;
 		}
 	}

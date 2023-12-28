@@ -28,6 +28,7 @@ public enum DaysOfTheWeek {
 
 	void removeEvent(int position) {
 		events.remove(position);
+		System.out.println("Event Removed!");
 	}
 
 	void updateTimes() {
