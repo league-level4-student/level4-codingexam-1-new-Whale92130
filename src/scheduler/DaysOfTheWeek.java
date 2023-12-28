@@ -31,20 +31,40 @@ public enum DaysOfTheWeek {
 	}
 
 	void updateTimes() {
-		// update the linked list so its in order
-		Node<String[]> node = events.getHead();
-		while (node != null && node.getNext() != null) {
-			System.out.println(getTime(node));
-			System.out.println(getTime(node.getNext()));
-			if (getTime(node) > getTime(node.getNext())) {
-				System.out.println("swap");
-				Node<String[]> temp = node;
-				node = node.getNext();
-				node.setPrev(temp);
-				events.print();
-			}
+	    boolean sorted = false;
+	    
+	    while (!sorted) {
+	        sorted = true;
+	        Node<String[]> node = events.getHead();
+	        
+	        while (node != null && node.getNext() != null) {
+	            if (getTime(node) > getTime(node.getNext())) {
+	                swapNodes(node, node.getNext());
+	                sorted = false;
+	            }
+	            node = node.getNext();
+	        }
+	    }
+	}
+	//works
+	private void swapNodes(Node<String[]> node1, Node<String[]> node2) {
+	    Node<String[]> tempPrev = node1.getPrev();
+	    Node<String[]> tempNext = node2.getNext();
 
-		}
+	    if (tempPrev != null) {
+	        tempPrev.setNext(node2);
+	    } else {
+	        events.setHead(node2);
+	    }
+
+	    if (tempNext != null) {
+	        tempNext.setPrev(node1);
+	    }
+
+	    node1.setPrev(node2);
+	    node1.setNext(tempNext);
+	    node2.setPrev(tempPrev);
+	    node2.setNext(node1);
 	}
 
 	// works
